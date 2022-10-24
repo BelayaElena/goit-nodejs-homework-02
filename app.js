@@ -9,7 +9,7 @@ DB_HOST =
 
 mongoose
   .connect(DB_HOST)
-  .then(() => console.log("Database connection successfull"))
+  .then(() => console.log("Database connection successful"))
   .catch((error) => {
     console.log(error.message);
     process.exit(1);
