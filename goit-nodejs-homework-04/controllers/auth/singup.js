@@ -12,13 +12,13 @@ const singup = async (req, res, next) => {
       throw error;
     }
 
-    const { email, password, subscription, token } = req.body;
+    const { email, password, subscription = "starter", token } = req.body;
     const user = await User.findOne({ email });
     if (user) {
       throw RequestError(409, "Email in use");
     }
     const hasnPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({
+    await User.create({
       email,
       password: hasnPassword,
       subscription,
