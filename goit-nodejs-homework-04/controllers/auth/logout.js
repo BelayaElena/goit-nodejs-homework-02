@@ -9,4 +9,5 @@ const logout = async (req, res) => {
     message: "Logout success",
   });
 };
+
 module.exports = logout;

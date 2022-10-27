@@ -12,7 +12,7 @@ const singup = async (req, res, next) => {
       throw error;
     }
 
-    const { email, password, subscription = "starter", token } = req.body;
+    const { email, password, subscription, token } = req.body;
     const user = await User.findOne({ email });
     if (user) {
       throw RequestError(409, "Email in use");
