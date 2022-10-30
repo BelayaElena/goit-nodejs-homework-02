@@ -1,6 +1,7 @@
 const { Contact, schemas } = require("../models/contact");
 
 const addContact = async (req, res, next) => {
+  const { _id: owner } = req.user;
   try {
     const { error } = schemas.contactJoiSchema.validate(req.body);
     if (error) {
@@ -8,7 +9,7 @@ const addContact = async (req, res, next) => {
       error.status = 400;
       throw error;
     }
-    const result = await Contact.create(req.body);
+    const result = await Contact.create({ ...req.body, owner });
     res.status(201).json({
       status: "created",
       code: 201,
