@@ -2,6 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const Joi = require("joi");
 const { handleSaveErrors } = require("../helpers");
+const { string } = require("joi");
 
 const userSchema = new Schema(
   {
@@ -23,6 +24,9 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
+    avatarURL: {
+      type: String,
+    },
   },
   {
     versionKey: false,
@@ -37,6 +41,7 @@ const singupSchema = Joi.object({
   email: Joi.string().required(),
   subscription: Joi.string(),
   token: Joi.string(),
+  avatarURL: Joi.string(),
 });
 
 const loginSchema = Joi.object({

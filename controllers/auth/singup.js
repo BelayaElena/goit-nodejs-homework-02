@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const gravatar = require("gravatar");
 
 const { User, schemas } = require("../../models/user");
 const { RequestError } = require("../../helpers");
@@ -13,6 +14,7 @@ const singup = async (req, res, next) => {
     }
 
     const { email, password, subscription = "starter", token } = req.body;
+    const avatarURL = gravatar.url(email);
     const user = await User.findOne({ email });
     if (user) {
       throw RequestError(409, "Email in use");
@@ -23,6 +25,7 @@ const singup = async (req, res, next) => {
       password: hasnPassword,
       subscription,
       token,
+      avatarURL,
     });
     res.status(201).json({
       status: "created",
