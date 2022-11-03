@@ -1,8 +1,9 @@
 const bcrypt = require("bcrypt");
 const gravatar = require("gravatar");
+const { nanoid } = require("nanoid");
 
 const { User, schemas } = require("../../models/user");
-const { RequestError } = require("../../helpers");
+const { RequestError, sendEmail, createVarifyEmail } = require("../../helpers");
 
 const singup = async (req, res, next) => {
   try {
@@ -20,19 +21,26 @@ const singup = async (req, res, next) => {
       throw RequestError(409, "Email in use");
     }
     const hasnPassword = await bcrypt.hash(password, 10);
+    const verificationToken = nanoid();
     await User.create({
       email,
       password: hasnPassword,
       subscription,
       token,
       avatarURL,
+      verificationToken,
     });
+
+    const mail = createVarifyEmail(mail, verificationToken);
+    await sendEmail(mail);
+
     res.status(201).json({
       status: "created",
       code: 201,
       data: {
         email,
         subscription,
+        verificationToken,
       },
     });
   } catch (error) {
