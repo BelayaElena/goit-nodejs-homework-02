@@ -5,6 +5,8 @@ const { authenticate, upload } = require("../../middlewares");
 const router = express.Router();
 
 router.post("/singup", controllers.singup);
+router.get("/varify/:verificationToken", controllers.verify);
+router.post("/varify", controllers.resendVerify);
 router.post("/login", controllers.login);
 router.get("/current", authenticate, controllers.getCurrent);
 router.get("/logout", authenticate, controllers.logout);
